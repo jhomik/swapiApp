@@ -8,8 +8,6 @@
 
 import UIKit
 
- var category = ["People", "Planets", "Films", "Species", "Vehicles", "Starships"]
-
 struct CategoryResponse: Codable {
     var people: String
     var planets: String

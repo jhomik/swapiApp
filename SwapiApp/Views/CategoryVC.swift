@@ -12,7 +12,7 @@ class CategoryVC: UIViewController {
     
     var tableView = UITableView()
     
-    let category = [CategoryResponse]()
+    var category = ["People", "Planets", "Films", "Species", "Vehicles", "Starships"]
     
     override func viewDidLoad() {
         super.viewDidLoad()

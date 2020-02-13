@@ -10,21 +10,23 @@ import UIKit
 
 class ListVC: UIViewController {
     
-    var selectedCategory: CategoryResponse?
+    var selectedCategory: CategoryResponse!
     
     var tableView = UITableView()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         configureTableView()
+        NetworkManager.shared.downloadPeople()
     }
     
     func configureTableView() {
         tableView = UITableView(frame: view.bounds)
         view.addSubview(tableView)
-//        tableView.dataSource = self
-//        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "ListVC")
     }
 }
