@@ -22,8 +22,8 @@ extension CategoryVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        let listVC = ListVC()
+        listVC.selectedCategory =
+        navigationController?.pushViewController(listVC, animated: true)
     }
-    
-    
 }

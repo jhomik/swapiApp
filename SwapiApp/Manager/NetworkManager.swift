@@ -14,11 +14,10 @@ class NetworkManager {
     
     private let baseUrl = "https://swapi.co/api/"
     
-    func downloadResponse() {
+    func downloadPeople() {
+        let endPoint = baseUrl + "people/"
         
-        let endpoint = baseUrl + "people"
-        
-        guard let url = URL(string: endpoint) else {
+        guard let url = URL(string: endPoint) else {
             return
         }
         
@@ -38,13 +37,79 @@ class NetworkManager {
             
             do {
                 let decoder = JSONDecoder()
-                let category = try decoder.decode(CategoryResponse.self, from: data)
-                
-                print(category.self)
+                let people = try decoder.decode(PeopleResponse.self, from: data)
+                print(people)
             } catch {
                 print(error)
             }
         }
         task.resume()
     }
+    
+    func downloadPlanets() {
+        let endPoint = baseUrl + "planets/"
+        
+        guard let url = URL(string: endPoint) else {
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            
+            if let _ = error {
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                return
+            }
+            
+            guard let data = data else {
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                let planets = try decoder.decode(PlanetsResponse.self, from: data)
+                
+                print(planets.self)
+            } catch {
+                print(error)
+            }
+        }
+        task.resume()
+    }
+    
+    func downloadFilms() {
+        let endPoint = baseUrl + "films/"
+        
+        guard let url = URL(string: endPoint) else {
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            
+            if let _ = error {
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                return
+            }
+            
+            guard let data = data else {
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                let films = try decoder.decode(FilmsResponse.self, from: data)
+                
+                print(films.self)
+            } catch {
+                print(error)
+            }
+        }
+        task.resume()
+    }
+    
 }

@@ -12,14 +12,13 @@ class CategoryVC: UIViewController {
     
     var tableView = UITableView()
     
-    var category = ["People", "Planets", "Films", "Species", "Vehicles", "Starships"]
+    let category = [CategoryResponse]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
         configureTableView()
-        NetworkManager.shared.downloadResponse()
     }
     
     func configureTableView() {

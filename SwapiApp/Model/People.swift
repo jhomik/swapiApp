@@ -12,6 +12,6 @@ struct People: Codable {
     var name: String
 }
 
-struct PeopleResults: Codable {
+struct PeopleResponse: Codable {
     var results: [People]
 }

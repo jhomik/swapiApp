@@ -10,6 +10,8 @@ import UIKit
 
 class ListVC: UIViewController {
     
+    var selectedCategory: CategoryResponse?
+    
     var tableView = UITableView()
     
     override func viewDidLoad() {

@@ -6,22 +6,9 @@
 //  Copyright © 2020 Jakub Homik. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
-enum CategoryId {
-    case people
-    case planets
-    case films
-    case species
-    case vehicles
-    case starships
-}
-
-struct Category {
-    var id: CategoryId
-    var name: String
-    var response: CategoryResponse
-}
+ var category = ["People", "Planets", "Films", "Species", "Vehicles", "Starships"]
 
 struct CategoryResponse: Codable {
     var people: String
