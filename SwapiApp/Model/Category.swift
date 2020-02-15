@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol CategoryItem {
+    var name: String { get }
+}
+
 struct CategoryResponse: Codable {
     var people: String
     var planets: String

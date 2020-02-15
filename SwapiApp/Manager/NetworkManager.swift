@@ -14,202 +14,40 @@ class NetworkManager {
     
     private let baseUrl = "https://swapi.co/api/"
     
-    func downloadPeople() {
-        let endPoint = baseUrl + "people/"
+    func downloadResponse<T: Codable>(endpoint: String, responseType: T.Type, closure: @escaping(Result<[T], Error>) -> Void) {
         
-        
-        guard let url = URL(string: endPoint) else {
+        guard let url = URL(string: baseUrl + endpoint) else {
+            closure(.failure(ErrorMessage.invalidUrl))
             return
         }
         
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             
             if let _ = error {
+                closure(.failure(ErrorMessage.invalidUrl))
                 return
             }
             
             guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                closure(.failure(ErrorMessage.invalidUrl))
                 return
             }
             
             guard let data = data else {
+                closure(.failure(ErrorMessage.invalidUrl))
                 return
             }
-            
             do {
                 let decoder = JSONDecoder()
-                let people = try decoder.decode(PeopleResponse.self, from: data)
-                print(people)
+                let result = try decoder.decode(responseType.self, from: data)
+                closure(.success([result]))
             } catch {
-                print(error)
+                closure(.failure(ErrorMessage.invalidUrl))
             }
         }
+        
         task.resume()
-    }
-    
-    func downloadPlanets() {
-        let endPoint = baseUrl + "planets/"
         
-        guard let url = URL(string: endPoint) else {
-            return
-        }
-        
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            
-            if let _ = error {
-                return
-            }
-            
-            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                return
-            }
-            
-            guard let data = data else {
-                return
-            }
-            
-            do {
-                let decoder = JSONDecoder()
-                let planets = try decoder.decode(PlanetsResponse.self, from: data)
-                
-                print(planets.self)
-            } catch {
-                print(error)
-            }
-        }
-        task.resume()
-    }
-    
-    func downloadFilms() {
-        let endPoint = baseUrl + "films/"
-        
-        guard let url = URL(string: endPoint) else {
-            return
-        }
-        
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            
-            if let _ = error {
-                return
-            }
-            
-            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                return
-            }
-            
-            guard let data = data else {
-                return
-            }
-            
-            do {
-                let decoder = JSONDecoder()
-                let films = try decoder.decode(FilmsResponse.self, from: data)
-                
-                print(films.self)
-            } catch {
-                print(error)
-            }
-        }
-        task.resume()
-    }
-    
-    func downloadSpecies() {
-        let endPoint = baseUrl + "species/"
-        
-        guard let url = URL(string: endPoint) else {
-            return
-        }
-        
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            
-            if let _ = error {
-                return
-            }
-            
-            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                return
-            }
-            
-            guard let data = data else {
-                return
-            }
-            
-            do {
-                let decoder = JSONDecoder()
-                let species = try decoder.decode(SpeciesResponse.self, from: data)
-                
-                print(species.self)
-            } catch {
-                print(error)
-            }
-        }
-        task.resume()
-    }
-    
-    func downloadVehicles() {
-        let endPoint = baseUrl + "vehicles/"
-        
-        guard let url = URL(string: endPoint) else {
-            return
-        }
-        
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            
-            if let _ = error {
-                return
-            }
-            
-            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                return
-            }
-            
-            guard let data = data else {
-                return
-            }
-            
-            do {
-                let decoder = JSONDecoder()
-                let vehicles = try decoder.decode(VehiclesResponse.self, from: data)
-                
-                print(vehicles.self)
-            } catch {
-                print(error)
-            }
-        }
-        task.resume()
-    }
-    
-    func downloadStarships() {
-        let endPoint = baseUrl + "starships/"
-        
-        guard let url = URL(string: endPoint) else {
-            return
-        }
-        
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            
-            if let _ = error {
-                return
-            }
-            
-            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                return
-            }
-            
-            guard let data = data else {
-                return
-            }
-            
-            do {
-                let decoder = JSONDecoder()
-                let starships = try decoder.decode(StarshipsResponse.self, from: data)
-                
-                print(starships.self)
-            } catch {
-                print(error)
-            }
-        }
-        task.resume()
     }
     
 }

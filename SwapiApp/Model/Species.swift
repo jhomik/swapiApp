@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Species: Codable {
+struct Species: Codable, CategoryItem {
     var name: String
 }
 

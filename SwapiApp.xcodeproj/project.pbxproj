@@ -14,15 +14,14 @@
 		5A210D5D23F2B92000A22BF4 /* CategoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A210D5C23F2B92000A22BF4 /* CategoryVC.swift */; };
 		5A210D6023F2BB6C00A22BF4 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A210D5F23F2BB6C00A22BF4 /* Category.swift */; };
 		5A210D6323F2C9FC00A22BF4 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A210D6223F2C9FC00A22BF4 /* NetworkManager.swift */; };
-		5A210D6623F2CD1300A22BF4 /* CategoryVC+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A210D6523F2CD1300A22BF4 /* CategoryVC+Ext.swift */; };
 		5AAB6DDB23F548B20064E5FB /* People.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AAB6DDA23F548B20064E5FB /* People.swift */; };
 		5AAB6DDD23F5538F0064E5FB /* ListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AAB6DDC23F5538F0064E5FB /* ListVC.swift */; };
-		5AAB6DE123F576AA0064E5FB /* ListVC+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AAB6DE023F576AA0064E5FB /* ListVC+Ext.swift */; };
 		5AAB6DE323F5789B0064E5FB /* Planets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AAB6DE223F5789A0064E5FB /* Planets.swift */; };
 		5AAB6DE523F579870064E5FB /* Films.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AAB6DE423F579870064E5FB /* Films.swift */; };
 		5AAB6DE723F579B10064E5FB /* Species.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AAB6DE623F579B10064E5FB /* Species.swift */; };
 		5AAB6DE923F57A440064E5FB /* Vehicles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AAB6DE823F57A440064E5FB /* Vehicles.swift */; };
 		5AAB6DEB23F57AA40064E5FB /* Starships.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AAB6DEA23F57AA40064E5FB /* Starships.swift */; };
+		5AAB6DEE23F5F8280064E5FB /* ErrorMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AAB6DED23F5F8280064E5FB /* ErrorMessage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,15 +34,14 @@
 		5A210D5C23F2B92000A22BF4 /* CategoryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryVC.swift; sourceTree = "<group>"; };
 		5A210D5F23F2BB6C00A22BF4 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		5A210D6223F2C9FC00A22BF4 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
-		5A210D6523F2CD1300A22BF4 /* CategoryVC+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CategoryVC+Ext.swift"; sourceTree = "<group>"; };
 		5AAB6DDA23F548B20064E5FB /* People.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = People.swift; sourceTree = "<group>"; };
 		5AAB6DDC23F5538F0064E5FB /* ListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListVC.swift; sourceTree = "<group>"; };
-		5AAB6DE023F576AA0064E5FB /* ListVC+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ListVC+Ext.swift"; sourceTree = "<group>"; };
 		5AAB6DE223F5789A0064E5FB /* Planets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Planets.swift; sourceTree = "<group>"; };
 		5AAB6DE423F579870064E5FB /* Films.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Films.swift; sourceTree = "<group>"; };
 		5AAB6DE623F579B10064E5FB /* Species.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Species.swift; sourceTree = "<group>"; };
 		5AAB6DE823F57A440064E5FB /* Vehicles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vehicles.swift; sourceTree = "<group>"; };
 		5AAB6DEA23F57AA40064E5FB /* Starships.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Starships.swift; sourceTree = "<group>"; };
+		5AAB6DED23F5F8280064E5FB /* ErrorMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,7 +74,7 @@
 		5A210D3C23EF1C8900A22BF4 /* SwapiApp */ = {
 			isa = PBXGroup;
 			children = (
-				5A210D6423F2CCF700A22BF4 /* Extensions */,
+				5AAB6DEC23F5F8190064E5FB /* Utilities */,
 				5A210D6123F2C9E100A22BF4 /* Manager */,
 				5A210D5E23F2BB5B00A22BF4 /* Model */,
 				5A210D5B23F2B8D800A22BF4 /* Views */,
@@ -120,13 +118,12 @@
 			path = Manager;
 			sourceTree = "<group>";
 		};
-		5A210D6423F2CCF700A22BF4 /* Extensions */ = {
+		5AAB6DEC23F5F8190064E5FB /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				5A210D6523F2CD1300A22BF4 /* CategoryVC+Ext.swift */,
-				5AAB6DE023F576AA0064E5FB /* ListVC+Ext.swift */,
+				5AAB6DED23F5F8280064E5FB /* ErrorMessage.swift */,
 			);
-			path = Extensions;
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -200,15 +197,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				5AAB6DE523F579870064E5FB /* Films.swift in Sources */,
-				5AAB6DE123F576AA0064E5FB /* ListVC+Ext.swift in Sources */,
 				5AAB6DE323F5789B0064E5FB /* Planets.swift in Sources */,
 				5A210D5D23F2B92000A22BF4 /* CategoryVC.swift in Sources */,
 				5AAB6DE723F579B10064E5FB /* Species.swift in Sources */,
 				5A210D3E23EF1C8900A22BF4 /* AppDelegate.swift in Sources */,
 				5A210D6323F2C9FC00A22BF4 /* NetworkManager.swift in Sources */,
+				5AAB6DEE23F5F8280064E5FB /* ErrorMessage.swift in Sources */,
 				5A210D4023EF1C8900A22BF4 /* SceneDelegate.swift in Sources */,
 				5AAB6DDD23F5538F0064E5FB /* ListVC.swift in Sources */,
-				5A210D6623F2CD1300A22BF4 /* CategoryVC+Ext.swift in Sources */,
 				5A210D6023F2BB6C00A22BF4 /* Category.swift in Sources */,
 				5AAB6DDB23F548B20064E5FB /* People.swift in Sources */,
 				5AAB6DE923F57A440064E5FB /* Vehicles.swift in Sources */,

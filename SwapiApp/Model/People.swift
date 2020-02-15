@@ -8,10 +8,11 @@
 
 import Foundation
 
-struct People: Codable {
+struct People: Codable, CategoryItem {
     var name: String
 }
 
 struct PeopleResponse: Codable {
+    
     var results: [People]
 }

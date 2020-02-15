@@ -8,10 +8,16 @@
 
 import Foundation
 
-struct Films: Codable {
-    var name: String
+struct Films: Codable, CategoryItem {
+    var title: String
 }
 
-struct FilmsResponse: Codable {
+struct FilmsResponse: Codable  {
     var results: [Films]
+}
+
+extension Films {
+    var name: String {
+        return self.title
+    }
 }

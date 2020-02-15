@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Starships: Codable {
+struct Starships: Codable, CategoryItem {
     var name: String
 }
 
