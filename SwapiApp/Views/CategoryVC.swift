@@ -11,7 +11,7 @@ import UIKit
 class CategoryVC: UIViewController {
     
     var tableView = UITableView()
-    var item = [CategoryItem]()
+    var item: [PeopleResponse] = []
     
     var category = ["People", "Planets", "Films", "Species", "Vehicles", "Starships"]
     
@@ -20,6 +20,7 @@ class CategoryVC: UIViewController {
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
         configureTableView()
+        downloadPeople()
     }
     
     func configureTableView() {
@@ -28,6 +29,19 @@ class CategoryVC: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Category")
+    }
+    
+    func downloadPeople() {
+        NetworkManager.shared.downloadResponse(endpoint: "people", responseType: PeopleResponse.self) { (result) in
+            switch result {
+            case .success(let people):
+                self.item = people
+                print(people)
+            case .failure:
+                print(ErrorMessage.invalidUrl)
+            }
+        }
+
     }
 }
 
@@ -46,7 +60,7 @@ extension CategoryVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let listVC = ListVC()
-        listVC.selectedCategory =
+        listVC.selectedCategory = item
         navigationController?.pushViewController(listVC, animated: true)
     }
 }

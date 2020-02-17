@@ -10,4 +10,8 @@ import Foundation
 
 enum ErrorMessage: String, Error {
     case invalidUrl = "Invalid URL"
+    case invalidData = "Invalid Data"
+    case invalidResponse = "Invalid Response"
+    case invalidJson = "Invalid Json"
+    case invalidTask = "Invalid Task"
 }

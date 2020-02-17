@@ -24,17 +24,17 @@ class NetworkManager {
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             
             if let _ = error {
-                closure(.failure(ErrorMessage.invalidUrl))
+                closure(.failure(ErrorMessage.invalidTask))
                 return
             }
             
             guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                closure(.failure(ErrorMessage.invalidUrl))
+                closure(.failure(ErrorMessage.invalidResponse))
                 return
             }
             
             guard let data = data else {
-                closure(.failure(ErrorMessage.invalidUrl))
+                closure(.failure(ErrorMessage.invalidData))
                 return
             }
             do {
@@ -42,7 +42,7 @@ class NetworkManager {
                 let result = try decoder.decode(responseType.self, from: data)
                 closure(.success([result]))
             } catch {
-                closure(.failure(ErrorMessage.invalidUrl))
+                closure(.failure(ErrorMessage.invalidJson))
             }
         }
         
