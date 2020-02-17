@@ -60,7 +60,7 @@ extension CategoryVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let listVC = ListVC()
-        listVC.selectedCategory = item
+        listVC.selectedCategory = item.first
         navigationController?.pushViewController(listVC, animated: true)
     }
 }
