@@ -9,30 +9,30 @@
 import Foundation
 
 class NetworkManager {
-    
+
     static let shared = NetworkManager()
-    
+
     private let baseUrl = "https://swapi.co/api/"
-    
+
     func downloadResponse<T: Codable>(endpoint: String, responseType: T.Type, closure: @escaping(Result<T, Error>) -> Void) {
-        
+
         guard let url = URL(string: baseUrl + endpoint) else {
             closure(.failure(ErrorMessage.invalidUrl))
             return
         }
-        
+
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            
+
             if let _ = error {
                 closure(.failure(ErrorMessage.invalidTask))
                 return
             }
-            
+
             guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
                 closure(.failure(ErrorMessage.invalidResponse))
                 return
             }
-            
+
             guard let data = data else {
                 closure(.failure(ErrorMessage.invalidData))
                 return
@@ -45,9 +45,9 @@ class NetworkManager {
                 closure(.failure(ErrorMessage.invalidJson))
             }
         }
-        
+
         task.resume()
-        
+
     }
-    
+
 }
