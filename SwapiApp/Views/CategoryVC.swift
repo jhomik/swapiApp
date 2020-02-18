@@ -13,7 +13,7 @@ class CategoryVC: UIViewController {
     var tableView = UITableView()
     var item: [PeopleResponse] = []
     
-    var category = ["People", "Planets", "Films", "Species", "Vehicles", "Starships"]
+    let category = Category.allCases
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +32,7 @@ class CategoryVC: UIViewController {
     }
     
     func downloadPeople() {
-        NetworkManager.shared.downloadResponse(endpoint: "people", responseType: PeopleResponse.self) { (result) in
+        NetworkManager.shared.downloadResponse(endpoint: Category.people.rawValue.lowercased(), responseType: PeopleResponse.self) { (result) in
             switch result {
             case .success(let people):
                 self.item = people
@@ -53,7 +53,7 @@ extension CategoryVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Category", for: indexPath)
-        cell.textLabel?.text = category[indexPath.row]
+        cell.textLabel?.text = category[indexPath.row].rawValue
         cell.accessoryType = .disclosureIndicator
         return cell
     }

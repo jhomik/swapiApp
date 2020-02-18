@@ -12,11 +12,11 @@ protocol CategoryItem {
     var name: String { get }
 }
 
-struct CategoryResponse: Codable {
-    var people: String
-    var planets: String
-    var films: String
-    var species: String
-    var vehicles: String
-    var starships: String
+enum Category: String, CaseIterable {
+    case people = "People"
+    case planets = "Planets"
+    case films = "Films"
+    case species = "Species"
+    case vehicles = "Vehicles"
+    case starships = "Starships"
 }
