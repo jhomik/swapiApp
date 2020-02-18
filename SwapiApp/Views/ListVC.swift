@@ -11,14 +11,9 @@ import UIKit
 class ListVC: UIViewController {
     
     var tableView = UITableView()
-<<<<<<< HEAD
-    var selectedCategory: PeopleResponse?
-    //var selectedCategory = [PeopleResponse]()
-
-=======
-    var selectedCategory: CategoryResponse?
+    var selectedCategory: Category?
+    var peopleItem: PeopleResponse?
     
->>>>>>> newBranch
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -31,31 +26,22 @@ class ListVC: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "ListVC")
-    
+        
     }
 }
 
 extension ListVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-<<<<<<< HEAD
-        return selectedCategory?.results.count ?? 0
-=======
-        return selectedCategory
->>>>>>> newBranch
-        /// There was only one selectedCaregory value, the names are inside the results property
-        // return selectedCategory.count
+        return peopleItem?.results
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListVC", for: indexPath)
-<<<<<<< HEAD
-        cell.textLabel?.text = selectedCategory?.results[indexPath.row].name
-        // cell.textLabel!.text = selectedCategory[indexPath.row].results[indexPath.row].name
-=======
-        cell.textLabel?.text = selectedCategory?.films[i]
->>>>>>> newBranch
+        cell.textLabel?.text = peopleItem[indexPath.row]
         return cell
     }
     
 }
+

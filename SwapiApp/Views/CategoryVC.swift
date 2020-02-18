@@ -11,8 +11,8 @@ import UIKit
 class CategoryVC: UIViewController {
     
     var tableView = UITableView()
-    var item: PeopleResponse?
-    var category: Category.AllCases?
+    var item: [PeopleResponse] = []
+    let category = Category.allCases
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,24 +30,12 @@ class CategoryVC: UIViewController {
         print(item)
         
     }
-    
-    func downloadData() {
-        NetworkManager.shared.downloadResponse(endpoint: "people", responseType: PeopleResponse.self) { (result) in
-            switch result {
-            case .success(let people):
-                self.item = people
-                print(people)
-            case .failure:
-                print(ErrorMessage.invalidUrl)
-            }
-        }
-    }
 }
 
 extension CategoryVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return category?.count ?? 0
+        return category.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -59,11 +47,7 @@ extension CategoryVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let listVC = ListVC()
-<<<<<<< HEAD
-        listVC.selectedCategory = item.first
-=======
-        listVC.selectedCategory =
->>>>>>> newBranch
+        listVC.selectedCategory = category[indexPath.row]
         navigationController?.pushViewController(listVC, animated: true)
     }
 }

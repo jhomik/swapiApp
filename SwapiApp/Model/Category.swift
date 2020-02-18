@@ -20,12 +20,3 @@ enum Category: String, CaseIterable {
 protocol CategoryItem: Codable {
     var name: String { get }
 }
-
-struct CategoryResponse: Codable {
-    var people: String
-    var planets: String
-    var films: String
-    var species: String
-    var vehicles: String
-    var starships: String
-}
