@@ -12,7 +12,7 @@ struct Films: Codable, CategoryItem {
     var title: String
 }
 
-struct FilmsResponse: Codable  {
+struct FilmsResponse: Codable {
     var results: [Films]
 }
 

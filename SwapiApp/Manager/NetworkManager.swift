@@ -14,7 +14,7 @@ class NetworkManager {
     
     private let baseUrl = "https://swapi.co/api/"
     
-    func downloadResponse<T: Codable>(endpoint: String, responseType: T.Type, closure: @escaping(Result<[T], Error>) -> Void) {
+    func downloadResponse<T: Codable>(endpoint: String, responseType: T.Type, closure: @escaping(Result<T, Error>) -> Void) {
         
         guard let url = URL(string: baseUrl + endpoint) else {
             closure(.failure(ErrorMessage.invalidUrl))
@@ -40,7 +40,7 @@ class NetworkManager {
             do {
                 let decoder = JSONDecoder()
                 let result = try decoder.decode(responseType.self, from: data)
-                closure(.success([result]))
+                closure(.success(result))
             } catch {
                 closure(.failure(ErrorMessage.invalidJson))
             }

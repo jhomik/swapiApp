@@ -12,6 +12,6 @@ struct Planets: Codable, CategoryItem {
     var name: String
 }
 
-struct PlanetsResponse: Codable  {
+struct PlanetsResponse: Codable {
     var results: [Planets]
 }

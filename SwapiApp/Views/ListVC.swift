@@ -11,14 +11,12 @@ import UIKit
 class ListVC: UIViewController {
     
     var tableView = UITableView()
-    var selectedCategory: PeopleResponse?
-    //var selectedCategory = [PeopleResponse]()
-
+    var selectedCategory: CategoryResponse?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         configureTableView()
-        print(selectedCategory)
     }
     
     func configureTableView() {
@@ -29,22 +27,19 @@ class ListVC: UIViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "ListVC")
     
     }
-    
-    
 }
 
 extension ListVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return selectedCategory?.results.count ?? 0
+        return selectedCategory
         /// There was only one selectedCaregory value, the names are inside the results property
         // return selectedCategory.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListVC", for: indexPath)
-        cell.textLabel?.text = selectedCategory?.results[indexPath.row].name
-        // cell.textLabel!.text = selectedCategory[indexPath.row].results[indexPath.row].name
+        cell.textLabel?.text = selectedCategory?.films[i]
         return cell
     }
     
