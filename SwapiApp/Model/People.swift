@@ -13,6 +13,5 @@ struct People: Codable, CategoryItem {
 }
 
 struct PeopleResponse: Codable {
-    
     var results: [People]
 }

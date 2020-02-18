@@ -8,7 +8,16 @@
 
 import UIKit
 
-protocol CategoryItem {
+enum Category: String, CaseIterable {
+  case people = "People"
+  case planets = "Planets"
+  case films = "Films"
+  case species = "Species"
+  case vehicles = "Vehicles"
+  case starships = "Starships"
+}
+
+protocol CategoryItem: Codable {
     var name: String { get }
 }
 
