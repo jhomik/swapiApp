@@ -17,6 +17,12 @@ enum Category: String, CaseIterable {
   case starships = "Starships"
 }
 
-protocol CategoryItem: Codable {
-    var name: String { get }
+struct CategoryResponse: Codable {
+    var name: String
 }
+
+struct CategoryResponseResults: Codable {
+    var results: [CategoryResponse]
+}
+
+
