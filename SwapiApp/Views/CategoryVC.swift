@@ -11,7 +11,7 @@ import UIKit
 class CategoryVC: UIViewController {
     
     var tableView = UITableView()
-    var item: [PeopleResponse] = []
+    var item: [CategoryResponseResults] = []
     let category = Category.allCases
     
     override func viewDidLoad() {
@@ -27,7 +27,6 @@ class CategoryVC: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Category")
-        
     }
 }
 
