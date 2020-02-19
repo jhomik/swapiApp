@@ -164,22 +164,16 @@ class ListVC: UIViewController {
 extension ListVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        guard let people = starshipsItem?.results.count else { return 0 }
-        
-        //        let numberOfRow = self.selectedCategory
-        //        switch numberOfRow {
-        //        case .people:
-        //            guard let people = peopleItem?.results.count else { return 0 }
-        //        case .planets:
-        //            guard let planets = planetsItem?.results.count else { return 0 }
-        //
-        //        default: print(ErrorMessage.invalidData)
-        //        }
-        //
-        //        return numberOfRow.count
-        
-        return people
+        let rows = self.selectedCategory
+        switch rows {
+        case .people: return self.peopleItem?.results.count ?? 0
+        case .planets: return self.planetsItem?.results.count ?? 0
+        case .films: return self.filmsItem?.results.count ?? 0
+        case .species: return self.speciesItem?.results.count ?? 0
+        case .vehicles: return self.vehiclesItem?.results.count ?? 0
+        case .starships: return self.starshipsItem?.results.count ?? 0
+        default: return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
