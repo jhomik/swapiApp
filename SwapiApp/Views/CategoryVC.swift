@@ -27,7 +27,6 @@ class CategoryVC: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Category")
-        print(item)
         
     }
 }

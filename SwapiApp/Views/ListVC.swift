@@ -18,6 +18,13 @@ class ListVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         configureTableView()
+        downloadPeople()
+        
+        switch self.selectedCategory {
+        case .people:
+            downloadPeople()
+        default: print(ErrorMessage.invalidData)        }
+        
     }
     
     func configureTableView() {
@@ -28,18 +35,32 @@ class ListVC: UIViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "ListVC")
         
     }
+    
+    func downloadPeople() {
+        
+        NetworkManager.shared.downloadResponse(endpoint: Category.people.rawValue.lowercased(), responseType: PeopleResponse.self) { [weak self] (result) in
+            guard let self = self else { return }
+            switch result {
+            case .success(let people):
+                self.peopleItem = people
+            case .failure:
+                print(ErrorMessage.invalidTask)
+                
+            }
+        }
+    }
 }
 
 extension ListVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return peopleItem?.results
-        
+        guard let people = peopleItem?.results.count else { return 0 }
+        return people
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListVC", for: indexPath)
-        cell.textLabel?.text = peopleItem[indexPath.row]
+        cell.textLabel?.text = peopleItem?.results[indexPath.row].name
         return cell
     }
     
