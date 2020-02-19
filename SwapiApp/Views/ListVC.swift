@@ -26,14 +26,19 @@ class ListVC: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "ListVC")
-
     }
 }
 
 extension ListVC: UITableViewDelegate, UITableViewDataSource {
 
+    //TODO: - Code belove is fixed temporarily, to let it compile
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return peopleItem?.results
+        guard let peopleCount = peopleItem?.results.count else {
+            return 0
+        }
+
+        return peopleCount
 
     }
 
