@@ -25,7 +25,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func createNavigationController() -> UINavigationController {
         let categoryVC = CategoryVC()
-        categoryVC.title = "StarWars"
                 return UINavigationController(rootViewController: categoryVC)
     }
     

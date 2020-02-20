@@ -19,6 +19,12 @@ class ListVC: UIViewController {
         view.backgroundColor = .systemBackground
         configureTableView()
         downloadCategories()
+        createTitle()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     func configureTableView() {
@@ -35,25 +41,29 @@ class ListVC: UIViewController {
         NetworkManager.shared.downloadResponse(endpoint: selectedCat.rawValue.lowercased(), responseType: CategoryResponseResults.self) { [weak self] (result) in
             guard let self = self else { return }
             
-            DispatchQueue.main.async {
                 switch result {
                 case .success(let categories):
-                    self.categoryItem = categories
-                    self.tableView.reloadData()
-                    
+                    DispatchQueue.main.async {
+                        self.categoryItem = categories
+                        self.tableView.reloadData()
+                    }
                 case .failure:
                     print(ErrorMessage.invalidTask)
                 }
             }
         }
+    
+    func createTitle() {
+        guard let selectedCat = selectedCategory else { return }
+        title = selectedCat.rawValue
     }
 }
 
 extension ListVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return categoryItem?.results.count ?? 0
+        guard let catItem = categoryItem else { return 0 }
+        return catItem.results.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

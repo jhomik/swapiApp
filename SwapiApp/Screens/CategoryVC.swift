@@ -11,8 +11,9 @@ import UIKit
 class CategoryVC: UIViewController {
     
     var tableView = UITableView()
-    var item: [CategoryResponseResults] = []
     let category = Category.allCases
+    let imageLogo = UIImageView()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,13 +22,21 @@ class CategoryVC: UIViewController {
         configureTableView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
     func configureTableView() {
         tableView = UITableView(frame: view.bounds)
         view.addSubview(tableView)
+        tableView.rowHeight = 70
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Category")
+        tableView.register(SwapiCell.self, forCellReuseIdentifier: SwapiCell.reuseId)
+        
     }
+    
 }
 
 extension CategoryVC: UITableViewDataSource, UITableViewDelegate {
@@ -37,9 +46,10 @@ extension CategoryVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Category", for: indexPath)
-        cell.textLabel?.text = category[indexPath.row].rawValue
-        cell.accessoryType = .disclosureIndicator
+        let cell = tableView.dequeueReusableCell(withIdentifier: SwapiCell.reuseId, for: indexPath) as! SwapiCell
+        
+        cell.imageCell.image = UIImage(named: "icons8-rebel-50")
+        cell.labelCell.text = category[indexPath.row].rawValue
         return cell
     }
     
@@ -47,6 +57,17 @@ extension CategoryVC: UITableViewDataSource, UITableViewDelegate {
         let listVC = ListVC()
         listVC.selectedCategory = category[indexPath.row]
         navigationController?.pushViewController(listVC, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        imageLogo.image = UIImage(named: "Star_Wars_logo_white")
+        return imageLogo
+        
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 200
     }
 }
 
