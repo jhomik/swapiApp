@@ -9,6 +9,8 @@
 import UIKit
 
 class SwapiImage: UIImageView {
+    
+    let imageCell = UIImage()
 
     override init(frame: CGRect) {
         super.init(frame: frame)

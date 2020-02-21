@@ -14,7 +14,6 @@ class CategoryVC: UIViewController {
     let category = Category.allCases
     let imageLogo = UIImageView()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -34,9 +33,7 @@ class CategoryVC: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(SwapiCell.self, forCellReuseIdentifier: SwapiCell.reuseId)
-        
     }
-    
 }
 
 extension CategoryVC: UITableViewDataSource, UITableViewDelegate {
@@ -48,7 +45,7 @@ extension CategoryVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SwapiCell.reuseId, for: indexPath) as! SwapiCell
         
-        cell.imageCell.image = UIImage(named: "icons8-rebel-50")
+        cell.imageCell.image = category[indexPath.row].labelForCategory
         cell.labelCell.text = category[indexPath.row].rawValue
         return cell
     }

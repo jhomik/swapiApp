@@ -19,12 +19,15 @@ class ListVC: UIViewController {
         view.backgroundColor = .systemBackground
         configureTableView()
         downloadCategories()
-        createTitle()
+        //        createTitle()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        title = ""
         navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationController?.navigationBar.prefersLargeTitles = false
+        
     }
     
     func configureTableView() {
@@ -32,7 +35,8 @@ class ListVC: UIViewController {
         view.addSubview(tableView)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "ListVC")
+        tableView.register(SwapiCell.self, forCellReuseIdentifier: SwapiCell.reuseId)
+        tableView.rowHeight = 80
     }
     
     func downloadCategories() {
@@ -40,24 +44,22 @@ class ListVC: UIViewController {
         
         NetworkManager.shared.downloadResponse(endpoint: selectedCat.rawValue.lowercased(), responseType: CategoryResponseResults.self) { [weak self] (result) in
             guard let self = self else { return }
+            self.createSpinnerView()
             
-                switch result {
-                case .success(let categories):
-                    DispatchQueue.main.async {
-                        self.categoryItem = categories
-                        self.tableView.reloadData()
-                    }
-                case .failure:
-                    print(ErrorMessage.invalidTask)
+            switch result {
+            case .success(let categories):
+                DispatchQueue.main.async {
+                    self.categoryItem = categories
+                    self.tableView.reloadData()
+                    self.removeSpinner()
                 }
+            case .failure:
+                print(ErrorMessage.invalidTask)
             }
         }
-    
-    func createTitle() {
-        guard let selectedCat = selectedCategory else { return }
-        title = selectedCat.rawValue
     }
 }
+
 
 extension ListVC: UITableViewDelegate, UITableViewDataSource {
     
@@ -67,10 +69,48 @@ extension ListVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ListVC", for: indexPath)
-        cell.textLabel?.text = categoryItem?.results[indexPath.row].text
+        let cell = tableView.dequeueReusableCell(withIdentifier: SwapiCell.reuseId, for: indexPath) as! SwapiCell
+        cell.labelCell.text = categoryItem?.results[indexPath.row].text
+        cell.imageCell.image = selectedCategory?.labelForCategory
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        return selectedCategory?.labelForList
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 100
+    }
+    
+}
+
+var spinnerView: UIView?
+
+extension UIViewController {
+    
+    func createSpinnerView() {
+        DispatchQueue.main.async {
+            let spinner = UIView(frame: self.view.bounds)
+            spinner.backgroundColor = UIColor(white: 0, alpha: 0.7)
+            
+            let ai = UIActivityIndicatorView(style: .large)
+            ai.center = spinner.center
+            ai.startAnimating()
+            spinner.addSubview(ai)
+            self.view.addSubview(spinner)
+            spinnerView = spinner
+        }
+    }
+    
+    func removeSpinner() {
+        
+        DispatchQueue.main.async {
+            spinnerView?.removeFromSuperview()
+            spinnerView = nil
+        }
     }
 }
 
