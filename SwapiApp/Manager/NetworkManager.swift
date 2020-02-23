@@ -13,10 +13,12 @@ class NetworkManager {
     static let shared = NetworkManager()
     
     private let baseUrl = "https://swapi.co/api/"
+    private let endpoint = "/?page="
     
-    func downloadResponse<T: Codable>(endpoint: String, responseType: T.Type, closure: @escaping(Result<T, Error>) -> Void) {
+    func downloadResponse<T: Codable>(urlCat: String, page: Int, responseType: T.Type, closure: @escaping(Result<T, Error>) -> Void) {
         
-        guard let url = URL(string: baseUrl + endpoint) else {
+        let endPointUrl = baseUrl + urlCat + endpoint + "\(page)"
+        guard let url = URL(string: endPointUrl) else {
             closure(.failure(ErrorMessage.invalidUrl))
             return
         }

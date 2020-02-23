@@ -13,13 +13,14 @@ class ListVC: UIViewController {
     var tableView = UITableView()
     var selectedCategory: Category?
     var categoryItem: CategoryResponseResults?
+    var page = 1
+    var hasMoreList = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         configureTableView()
-        downloadCategories()
-        //        createTitle()
+        downloadCategories(page: page)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -28,6 +29,32 @@ class ListVC: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationController?.navigationBar.prefersLargeTitles = false
         
+    }
+    
+    func createSpinnerView() {
+        
+        let ai = UIActivityIndicatorView(style: .large)
+        ai.center = view.center
+        ai.accessibilityIdentifier = "Spinner"
+        ai.startAnimating()
+        DispatchQueue.main.async {
+            self.tableView.isHidden = true
+            self.view.addSubview(ai)
+        }
+    }
+    
+    func removeSpinner() {
+        guard let ai = self.view.subviews.first(where: {$0 is UIActivityIndicatorView && $0.accessibilityIdentifier == "Spinner" }) else { return }
+        DispatchQueue.main.async {
+            self.tableView.isHidden = false
+            ai.removeFromSuperview()
+        }
+    }
+    
+    func showAlert(message: String) {
+        
+        let ac = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Ok", style: .default))
     }
     
     func configureTableView() {
@@ -39,22 +66,23 @@ class ListVC: UIViewController {
         tableView.rowHeight = 80
     }
     
-    func downloadCategories() {
+    func downloadCategories(page: Int) {
         guard let selectedCat = selectedCategory else { return }
+        self.createSpinnerView()
         
-        NetworkManager.shared.downloadResponse(endpoint: selectedCat.rawValue.lowercased(), responseType: CategoryResponseResults.self) { [weak self] (result) in
+        NetworkManager.shared.downloadResponse(urlCat: selectedCat.rawValue.lowercased(), page: page, responseType: CategoryResponseResults.self) { [weak self] (result) in
             guard let self = self else { return }
-            self.createSpinnerView()
             
             switch result {
             case .success(let categories):
+                if categories.results < 40 { self.hasMoreList = false }
                 DispatchQueue.main.async {
                     self.categoryItem = categories
                     self.tableView.reloadData()
                     self.removeSpinner()
                 }
-            case .failure:
-                print(ErrorMessage.invalidTask)
+            case .failure(let error):
+                self.showAlert(message: error.localizedDescription)
             }
         }
     }
@@ -85,32 +113,18 @@ extension ListVC: UITableViewDelegate, UITableViewDataSource {
         return 100
     }
     
-}
-
-var spinnerView: UIView?
-
-extension UIViewController {
-    
-    func createSpinnerView() {
-        DispatchQueue.main.async {
-            let spinner = UIView(frame: self.view.bounds)
-            spinner.backgroundColor = UIColor(white: 0, alpha: 0.7)
-            
-            let ai = UIActivityIndicatorView(style: .large)
-            ai.center = spinner.center
-            ai.startAnimating()
-            spinner.addSubview(ai)
-            self.view.addSubview(spinner)
-            spinnerView = spinner
-        }
-    }
-    
-    func removeSpinner() {
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let height = scrollView.frame.size.height
         
-        DispatchQueue.main.async {
-            spinnerView?.removeFromSuperview()
-            spinnerView = nil
+        if offsetY > contentHeight - height {
+            guard hasMoreList else { return }
+            page += 1
+            downloadCategories(page: page)
+            
         }
     }
+    
 }
 
