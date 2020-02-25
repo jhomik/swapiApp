@@ -38,7 +38,7 @@ class ListVC: UIViewController {
         ai.accessibilityIdentifier = "Spinner"
         ai.startAnimating()
         DispatchQueue.main.async {
-            self.tableView.isHidden = true
+//            self.tableView.isHidden = true
             self.view.addSubview(ai)
         }
     }
@@ -46,7 +46,7 @@ class ListVC: UIViewController {
     func removeSpinner() {
         guard let ai = self.view.subviews.first(where: {$0 is UIActivityIndicatorView && $0.accessibilityIdentifier == "Spinner" }) else { return }
         DispatchQueue.main.async {
-            self.tableView.isHidden = false
+//            self.tableView.isHidden = false
             ai.removeFromSuperview()
         }
     }
@@ -76,7 +76,7 @@ class ListVC: UIViewController {
             
             switch result {
             case .success(let categories):
-                if categories.results.count < 20 { self.hasMoreList = false }
+                if categories.results.count < 10 { self.hasMoreList = false }
                 DispatchQueue.main.async {
                     if self.categoryItem?.results.count == nil {
                         self.categoryItem = categories
@@ -96,28 +96,53 @@ class ListVC: UIViewController {
 
 extension ListVC: UITableViewDelegate, UITableViewDataSource {
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        guard let catItem = categoryItem else { return 0 }
-        
-        return catItem.results.count
+        switch section {
+        case 1:
+            return 1
+        default:
+            guard let catItem = categoryItem else { return 0 }
+            return catItem.results.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: SwapiCell.reuseId, for: indexPath) as! SwapiCell
-        cell.labelCell.text = categoryItem?.results[indexPath.row].text
-        cell.imageCell.image = selectedCategory?.labelForCategory
         
-        return cell
+        let section = indexPath.section
+        
+        switch section {
+        case 1:
+//            createSpinnerView()
+//            tableView.isHidden = false
+            let cell = tableView.dequeueReusableCell(withIdentifier: SpinnerCell.reuseIdSpinner, for: indexPath) as! SpinnerCell
+            
+            return cell
+        default:
+            let cell = tableView.dequeueReusableCell(withIdentifier: SwapiCell.reuseId, for: indexPath) as! SwapiCell
+            cell.labelCell.text = categoryItem?.results[indexPath.row].text
+            cell.imageCell.image = selectedCategory?.labelForCategory
+            return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        return selectedCategory?.labelForList
+            return selectedCategory?.labelForList
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 100
+        
+        switch section {
+        case 1:
+            return 0
+        default:
+            return 100
+        }
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -130,12 +155,9 @@ extension ListVC: UITableViewDelegate, UITableViewDataSource {
             page += 1
             downloadCategories(page: page)
             
+            
         }
         
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        <#code#>
-    }
 }
-
