@@ -66,7 +66,8 @@ struct CategoryResponse: Codable {
         case name, title
     }
 }
-struct CategoryResponseResults: Codable {
+
+class CategoryResponseResults: Codable {
     var results: [CategoryResponse]
 }
 

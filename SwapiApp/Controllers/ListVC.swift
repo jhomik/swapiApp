@@ -63,6 +63,7 @@ class ListVC: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(SwapiCell.self, forCellReuseIdentifier: SwapiCell.reuseId)
+        tableView.register(SpinnerCell.self, forCellReuseIdentifier: SpinnerCell.reuseIdSpinner)
         tableView.rowHeight = 80
     }
     
@@ -75,9 +76,13 @@ class ListVC: UIViewController {
             
             switch result {
             case .success(let categories):
-                if categories.results < 40 { self.hasMoreList = false }
+                if categories.results.count < 20 { self.hasMoreList = false }
                 DispatchQueue.main.async {
-                    self.categoryItem = categories
+                    if self.categoryItem?.results.count == nil {
+                        self.categoryItem = categories
+                    } else {
+                        self.categoryItem?.results.append(contentsOf: categories.results)
+                    }
                     self.tableView.reloadData()
                     self.removeSpinner()
                 }
@@ -92,7 +97,9 @@ class ListVC: UIViewController {
 extension ListVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         guard let catItem = categoryItem else { return 0 }
+        
         return catItem.results.count
     }
     
@@ -124,7 +131,11 @@ extension ListVC: UITableViewDelegate, UITableViewDataSource {
             downloadCategories(page: page)
             
         }
+        
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        <#code#>
+    }
 }
 
