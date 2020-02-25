@@ -13,7 +13,7 @@ class SwapiCell: UITableViewCell {
     static let reuseId = "SwapiCell"
     
     let imageCell = SwapiImage(frame: .zero)
-    let labelCell = SwapiLabel(textAlignment: .left, fontSize: 22)
+    let labelCell = SwapiLabel(textAlignment: .left, fontSize: 21)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

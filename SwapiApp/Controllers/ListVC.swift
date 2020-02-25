@@ -32,18 +32,26 @@ class ListVC: UIViewController {
     }
     
     func createSpinnerView() {
-        
         if self.categoryItem == nil || self.categoryItem?.results.count == 0 {
-            self.createSpinnerView()
-        }
-        
-        let ai = UIActivityIndicatorView(style: .large)
-        ai.center = view.center
-        ai.accessibilityIdentifier = "Spinner"
-        ai.startAnimating()
-        DispatchQueue.main.async {
-            self.tableView.isHidden = true
-            self.view.addSubview(ai)
+            
+            let ai = UIActivityIndicatorView(style: .large)
+            ai.center = view.center
+            ai.accessibilityIdentifier = "Spinner"
+            ai.startAnimating()
+            DispatchQueue.main.async {
+                self.tableView.isHidden = true
+                self.view.addSubview(ai)
+            }
+        } else if self.categoryItem != nil || self.categoryItem?.results.count != 0 {
+            
+            let ai = UIActivityIndicatorView(style: .medium)
+            ai.center = view.center
+            ai.accessibilityIdentifier = "Spinner"
+            ai.startAnimating()
+            DispatchQueue.main.async {
+                self.tableView.isHidden = false
+                self.view.addSubview(ai)
+            }
         }
     }
     
@@ -67,7 +75,7 @@ class ListVC: UIViewController {
     
     func downloadCategories(page: Int) {
         guard let selectedCat = selectedCategory else { return }
-        
+        createSpinnerView()
         NetworkManager.shared.downloadResponse(urlCat: selectedCat.rawValue.lowercased(), page: page, responseType: CategoryResponseResults.self) { [weak self] (result) in
             guard let self = self else { return }
             
@@ -126,7 +134,7 @@ extension ListVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-            return selectedCategory?.labelForList
+        return selectedCategory?.labelForList
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -148,8 +156,6 @@ extension ListVC: UITableViewDelegate, UITableViewDataSource {
             guard hasMoreList else { return }
             page += 1
             downloadCategories(page: page)
-            
-            
         }
         
     }
