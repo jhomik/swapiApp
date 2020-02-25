@@ -33,12 +33,16 @@ class ListVC: UIViewController {
     
     func createSpinnerView() {
         
+        if self.categoryItem == nil || self.categoryItem?.results.count == 0 {
+            self.createSpinnerView()
+        }
+        
         let ai = UIActivityIndicatorView(style: .large)
         ai.center = view.center
         ai.accessibilityIdentifier = "Spinner"
         ai.startAnimating()
         DispatchQueue.main.async {
-//            self.tableView.isHidden = true
+            self.tableView.isHidden = true
             self.view.addSubview(ai)
         }
     }
@@ -46,15 +50,9 @@ class ListVC: UIViewController {
     func removeSpinner() {
         guard let ai = self.view.subviews.first(where: {$0 is UIActivityIndicatorView && $0.accessibilityIdentifier == "Spinner" }) else { return }
         DispatchQueue.main.async {
-//            self.tableView.isHidden = false
+            self.tableView.isHidden = false
             ai.removeFromSuperview()
         }
-    }
-    
-    func showAlert(message: String) {
-        
-        let ac = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "Ok", style: .default))
     }
     
     func configureTableView() {
@@ -69,7 +67,6 @@ class ListVC: UIViewController {
     
     func downloadCategories(page: Int) {
         guard let selectedCat = selectedCategory else { return }
-        self.createSpinnerView()
         
         NetworkManager.shared.downloadResponse(urlCat: selectedCat.rawValue.lowercased(), page: page, responseType: CategoryResponseResults.self) { [weak self] (result) in
             guard let self = self else { return }
@@ -87,7 +84,7 @@ class ListVC: UIViewController {
                     self.removeSpinner()
                 }
             case .failure(let error):
-                self.showAlert(message: error.localizedDescription)
+                print(error.localizedDescription)
             }
         }
     }
@@ -117,10 +114,7 @@ extension ListVC: UITableViewDelegate, UITableViewDataSource {
         
         switch section {
         case 1:
-//            createSpinnerView()
-//            tableView.isHidden = false
             let cell = tableView.dequeueReusableCell(withIdentifier: SpinnerCell.reuseIdSpinner, for: indexPath) as! SpinnerCell
-            
             return cell
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: SwapiCell.reuseId, for: indexPath) as! SwapiCell
