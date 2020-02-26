@@ -44,16 +44,6 @@ class ListVC: UIViewController {
                 self.tableView.isHidden = true
                 self.view.addSubview(ai)
             }
-        } else if self.categoryItem != nil || self.categoryItem?.results.count != 0 {
-            
-            let ai = UIActivityIndicatorView(style: .medium)
-            ai.center = view.center
-            ai.accessibilityIdentifier = "Spinner"
-            ai.startAnimating()
-            DispatchQueue.main.async {
-                self.tableView.isHidden = false
-                self.view.addSubview(ai)
-            }
         }
     }
     
@@ -78,6 +68,7 @@ class ListVC: UIViewController {
     func downloadCategories(page: Int) {
         guard let selectedCat = selectedCategory else { return }
         createSpinnerView()
+        
         NetworkManager.shared.downloadResponse(urlCat: selectedCat.rawValue.lowercased(), page: page, responseType: CategoryResponseResults.self) { [weak self] (result) in
             guard let self = self else { return }
             
@@ -85,13 +76,15 @@ class ListVC: UIViewController {
             case .success(let categories):
                 if categories.results.count < 10 { self.hasMoreList = false }
                 DispatchQueue.main.async {
+                    
                     if self.categoryItem?.results.count == nil {
                         self.categoryItem = categories
+                        self.removeSpinner()
                     } else {
                         self.categoryItem?.results.append(contentsOf: categories.results)
                     }
                     self.tableView.reloadData()
-                    self.removeSpinner()
+                    
                 }
             case .failure(let error):
                 print(error.localizedDescription)
