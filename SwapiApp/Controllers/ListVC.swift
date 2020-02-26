@@ -21,8 +21,6 @@ class ListVC: UIViewController {
         view.backgroundColor = .systemBackground
         configureTableView()
         downloadCategories(page: page)
-        createSpinnerView()
-        removeSpinner()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -79,12 +77,11 @@ class ListVC: UIViewController {
                     
                     if self.categoryItem?.results.count == nil {
                         self.categoryItem = categories
-                        self.removeSpinner()
                     } else {
                         self.categoryItem?.results.append(contentsOf: categories.results)
                     }
                     self.tableView.reloadData()
-                    
+                    self.removeSpinner()
                 }
             case .failure(let error):
                 print(error.localizedDescription)
