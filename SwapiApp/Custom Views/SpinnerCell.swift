@@ -9,8 +9,8 @@
 import UIKit
 
 class SpinnerCell: UITableViewCell {
-
-    @IBOutlet weak var spinner: UIView!
+    
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

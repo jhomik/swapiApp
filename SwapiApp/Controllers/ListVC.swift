@@ -115,6 +115,11 @@ extension ListVC: UITableViewDelegate, UITableViewDataSource {
         switch section {
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "SpinnerCell", for: indexPath) as! SpinnerCell
+            if hasMoreList == false {
+                cell.spinner.isHidden = true
+                cell.isHidden = true
+            }
+            cell.spinner.startAnimating()
             return cell
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: SwapiCell.reuseId, for: indexPath) as! SwapiCell
