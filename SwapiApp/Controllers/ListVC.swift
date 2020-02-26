@@ -21,6 +21,8 @@ class ListVC: UIViewController {
         view.backgroundColor = .systemBackground
         configureTableView()
         downloadCategories(page: page)
+        createSpinnerView()
+        removeSpinner()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,7 +71,7 @@ class ListVC: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(SwapiCell.self, forCellReuseIdentifier: SwapiCell.reuseId)
-        tableView.register(SpinnerCell.self, forCellReuseIdentifier: SpinnerCell.reuseIdSpinner)
+        tableView.register(UINib(nibName: "SpinnerCell", bundle: nil), forCellReuseIdentifier: "SpinnerCell")
         tableView.rowHeight = 80
     }
     
@@ -122,7 +124,7 @@ extension ListVC: UITableViewDelegate, UITableViewDataSource {
         
         switch section {
         case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: SpinnerCell.reuseIdSpinner, for: indexPath) as! SpinnerCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "SpinnerCell", for: indexPath) as! SpinnerCell
             return cell
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: SwapiCell.reuseId, for: indexPath) as! SwapiCell
