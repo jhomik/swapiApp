@@ -21,6 +21,7 @@ class ListVC: UIViewController {
         view.backgroundColor = .systemBackground
         configureTableView()
         downloadCategories(page: page)
+        configureNavigationBar()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -28,6 +29,15 @@ class ListVC: UIViewController {
         title = ""
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationController?.navigationBar.prefersLargeTitles = false
+        
+        
+    }
+    
+    func configureNavigationBar() {
+        navigationItem.rightBarButtonItem? = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self, action: #selector(showFavorites))
+    }
+    
+    @objc func showFavorites() {
         
     }
     
@@ -90,6 +100,8 @@ class ListVC: UIViewController {
     }
 }
 
+// MARK: TableView extension
+
 
 extension ListVC: UITableViewDelegate, UITableViewDataSource {
     
@@ -101,7 +113,7 @@ extension ListVC: UITableViewDelegate, UITableViewDataSource {
         
         switch section {
         case 1:
-            return 1
+            return self.hasMoreList ? 1 : 0
         default:
             guard let catItem = categoryItem else { return 0 }
             return catItem.results.count
@@ -115,10 +127,6 @@ extension ListVC: UITableViewDelegate, UITableViewDataSource {
         switch section {
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "SpinnerCell", for: indexPath) as! SpinnerCell
-            if hasMoreList == false {
-                cell.spinner.isHidden = true
-                cell.isHidden = true
-            }
             cell.spinner.startAnimating()
             return cell
         default:
@@ -153,6 +161,7 @@ extension ListVC: UITableViewDelegate, UITableViewDataSource {
             guard hasMoreList else { return }
             page += 1
             downloadCategories(page: page)
+            tableView.reloadSections(IndexSet(integer: 1), with: .none)
         }
         
     }
