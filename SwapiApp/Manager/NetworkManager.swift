@@ -6,14 +6,15 @@
 //  Copyright © 2020 Jakub Homik. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class NetworkManager {
     
     static let shared = NetworkManager()
     
-    private let baseUrl = "https://swapi.co/api/"
+    private let baseUrl = "https://swap.co/api/"
     private let endpoint = "/?page="
+    
     
     func downloadResponse<T: Codable>(urlCat: String, page: Int, responseType: T.Type, closure: @escaping(Result<T, Error>) -> Void) {
         
@@ -51,5 +52,4 @@ class NetworkManager {
         task.resume()
         
     }
-    
 }

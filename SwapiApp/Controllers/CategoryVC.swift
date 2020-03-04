@@ -36,6 +36,8 @@ class CategoryVC: UIViewController {
     }
 }
 
+// MARK: TableView extension
+
 extension CategoryVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
