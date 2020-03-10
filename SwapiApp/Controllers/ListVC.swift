@@ -21,7 +21,7 @@ class ListVC: UIViewController {
         view.backgroundColor = .systemBackground
         configureTableView()
         downloadCategories(page: page)
-
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -29,7 +29,7 @@ class ListVC: UIViewController {
         title = ""
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationController?.navigationBar.prefersLargeTitles = false
-       
+        
         
     }
     
@@ -94,11 +94,14 @@ class ListVC: UIViewController {
                     self.removeSpinner()
                 }
             case .failure(let error):
-                self.showAlert(title: "Ups..", message: "Something wrong happend, try reconnect your internet. Error: \(error.localizedDescription)")
+                self.showAlert(title: "Ups", message: "Something wrong happend, try reconnect your internet. Error: \(error.localizedDescription)") {
+                    self.navigationController?.popToRootViewController(animated: true)
+                }
             }
         }
     }
 }
+
 
 // MARK: TableView extension
 

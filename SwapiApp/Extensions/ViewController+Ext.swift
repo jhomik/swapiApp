@@ -10,18 +10,17 @@ import UIKit
 
 extension UIViewController {
     
-    func showAlert(title: String, message: String) {
+    func showAlert(title: String, message: String, closure: @escaping () -> Void) {
         DispatchQueue.main.async {
+            
             let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            let actionVC = UIAlertAction(title: "Go back", style: .default) { action in
-                self.navigationController?.popToRootViewController(animated: true)
+            let actionVC = UIAlertAction(title: "Go back", style: .default) { (action) in
+                closure()
             }
             
             alertVC.addAction(actionVC)
             
-            self.present(alertVC, animated: true) {
-                print("test2")
-            }
+            self.present(alertVC, animated: true)
         }
     }
 }

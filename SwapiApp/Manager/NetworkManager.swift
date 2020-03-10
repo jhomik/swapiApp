@@ -12,7 +12,7 @@ class NetworkManager {
     
     static let shared = NetworkManager()
     
-    private let baseUrl = "https://swap.co/api/"
+    private let baseUrl = "https://swapir.co/api/"
     private let endpoint = "/?page="
     
     
