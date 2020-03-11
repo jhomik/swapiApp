@@ -16,6 +16,7 @@ class ListVC: UIViewController {
     var page = 1
     var hasMoreList = true
     let refreshControl = UIRefreshControl()
+    var isRefreshingContent = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +42,9 @@ class ListVC: UIViewController {
     }
     
     @objc func refreshTableView() {
-        downloadCategories(page: 1)
+        page = 1
+        isRefreshingContent = true
+        downloadCategories(page: page)
         DispatchQueue.main.async {
             self.tableView.reloadData()
             self.refreshControl.endRefreshing()
@@ -92,8 +95,9 @@ class ListVC: UIViewController {
                 if categories.results.count < 10 { self.hasMoreList = false }
                 DispatchQueue.main.async {
                     
-                    if self.categoryItem?.results.count == nil {
+                    if self.categoryItem?.results.count == nil || self.isRefreshingContent {
                         self.categoryItem = categories
+                        self.isRefreshingContent = false
                     } else {
                         self.categoryItem?.results.append(contentsOf: categories.results)
                     }
