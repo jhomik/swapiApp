@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIViewController {
-    
+
     func showAlert(title: String, message: String, closure: @escaping () -> Void) {
         DispatchQueue.main.async {
             

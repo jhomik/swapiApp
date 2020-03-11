@@ -15,12 +15,14 @@ class ListVC: UIViewController {
     var categoryItem: CategoryResponseResults?
     var page = 1
     var hasMoreList = true
+    let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         configureTableView()
         downloadCategories(page: page)
+        createRefreshControl()
         
     }
     
@@ -33,12 +35,17 @@ class ListVC: UIViewController {
         
     }
     
-    func configureNavigationBar() {
-        navigationItem.rightBarButtonItem? = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self, action: #selector(showFavorites))
+    func createRefreshControl() {
+        tableView.addSubview(refreshControl)
+        refreshControl.addTarget(self, action: #selector(refreshTableView), for: .valueChanged)
     }
     
-    @objc func showFavorites() {
-        
+    @objc func refreshTableView() {
+        downloadCategories(page: 1)
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            self.refreshControl.endRefreshing()
+        }
     }
     
     func createSpinnerView() {
@@ -94,7 +101,8 @@ class ListVC: UIViewController {
                     self.removeSpinner()
                 }
             case .failure(let error):
-                self.showAlert(title: "Ups", message: "Something wrong happend, try reconnect your internet. Error: \(error.localizedDescription)") {
+                self.showAlert(title: "Ups", message: "Something wrong happend, try reconnect your internet. Error: \(error.localizedDescription)") { [weak self] in
+                    guard let self = self else { return }
                     self.navigationController?.popToRootViewController(animated: true)
                 }
             }
@@ -164,7 +172,6 @@ extension ListVC: UITableViewDelegate, UITableViewDataSource {
             guard hasMoreList else { return }
             page += 1
             downloadCategories(page: page)
-            tableView.reloadSections(IndexSet(integer: 1), with: .none)
         }
         
     }
