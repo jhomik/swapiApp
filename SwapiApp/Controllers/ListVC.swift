@@ -47,7 +47,6 @@ class ListVC: UIViewController {
         downloadCategories(page: page)
         DispatchQueue.main.async {
             self.tableView.reloadData()
-            self.refreshControl.endRefreshing()
         }
     }
     
@@ -74,7 +73,7 @@ class ListVC: UIViewController {
     }
     
     func configureTableView() {
-        tableView = UITableView(frame: view.bounds)
+        tableView = UITableView(frame: view.bounds, style: .grouped)
         view.addSubview(tableView)
         tableView.dataSource = self
         tableView.delegate = self
@@ -92,17 +91,20 @@ class ListVC: UIViewController {
             
             switch result {
             case .success(let categories):
-                if categories.results.count < 10 { self.hasMoreList = false }
+                if categories.next == nil { self.hasMoreList = false }
                 DispatchQueue.main.async {
                     
                     if self.categoryItem?.results.count == nil || self.isRefreshingContent {
                         self.categoryItem = categories
+                        self.refreshControl.endRefreshing()
                         self.isRefreshingContent = false
+                        self.hasMoreList = true
                     } else {
                         self.categoryItem?.results.append(contentsOf: categories.results)
                     }
                     self.tableView.reloadData()
                     self.removeSpinner()
+                    
                 }
             case .failure(let error):
                 self.showAlert(title: "Ups", message: "Something wrong happend, try reconnect your internet. Error: \(error.localizedDescription)") { [weak self] in
@@ -172,7 +174,11 @@ extension ListVC: UITableViewDelegate, UITableViewDataSource {
         let contentHeight = scrollView.contentSize.height
         let height = scrollView.frame.size.height
         
-        if offsetY > contentHeight - height {
+        print(offsetY)
+        print(contentHeight)
+        print(height)
+        
+        if offsetY > contentHeight - height * 2 {
             guard hasMoreList else { return }
             page += 1
             downloadCategories(page: page)

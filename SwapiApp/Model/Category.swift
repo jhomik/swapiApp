@@ -68,6 +68,7 @@ struct CategoryResponse: Codable {
 }
 
 class CategoryResponseResults: Codable {
+    var next: String?
     var results: [CategoryResponse]
 }
 
