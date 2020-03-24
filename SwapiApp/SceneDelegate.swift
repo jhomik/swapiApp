@@ -19,13 +19,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = createNavigationController()
+        window?.rootViewController = createTabBarController()
         window?.makeKeyAndVisible()
     }
     
     func createNavigationController() -> UINavigationController {
         let categoryVC = CategoryVC()
-                return UINavigationController(rootViewController: categoryVC)
+        categoryVC.tabBarItem = UITabBarItem(tabBarSystemItem: .bookmarks, tag: 0)
+        return UINavigationController(rootViewController: categoryVC)
+    }
+    
+    func createFavoritesController() -> UINavigationController {
+        let favoritesVC = FavoritesVC()
+        favoritesVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
+        return UINavigationController(rootViewController: favoritesVC)
+    }
+    
+    func createTabBarController() -> UITabBarController {
+        let tabBarVC = UITabBarController()
+        tabBarVC.viewControllers = [createNavigationController(), createFavoritesController()]
+        return tabBarVC
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {

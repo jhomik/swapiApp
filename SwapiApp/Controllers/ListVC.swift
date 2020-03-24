@@ -17,6 +17,7 @@ class ListVC: UIViewController {
     var hasMoreList = true
     let refreshControl = UIRefreshControl()
     var isRefreshingContent = true
+    var defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +25,7 @@ class ListVC: UIViewController {
         configureTableView()
         downloadCategories(page: page)
         createRefreshControl()
+        createNavBarButton()
         
     }
     
@@ -32,8 +34,18 @@ class ListVC: UIViewController {
         title = ""
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationController?.navigationBar.prefersLargeTitles = false
+    }
+    
+    func createNavBarButton() {
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
+        navigationItem.rightBarButtonItem = addButton
+    }
+    
+    @objc func addButtonTapped() {
         
-        
+        showAlertToAddText(title: "Favorite List", message: "Add word to list", preferredStyle: .alert) {
+            print("added to list")
+        }
     }
     
     func createRefreshControl() {
@@ -73,7 +85,7 @@ class ListVC: UIViewController {
     }
     
     func configureTableView() {
-        tableView = UITableView(frame: view.bounds, style: .grouped)
+        tableView = UITableView(frame: view.bounds)
         view.addSubview(tableView)
         tableView.dataSource = self
         tableView.delegate = self
@@ -107,7 +119,7 @@ class ListVC: UIViewController {
                     
                 }
             case .failure(let error):
-                self.showAlert(title: "Ups", message: "Something wrong happend, try reconnect your internet. Error: \(error.localizedDescription)") { [weak self] in
+                self.showAlert(title: "Ups", message: "Something wrong happend, try reconnect your internet. Error: \(error.localizedDescription)", preferredStyle: .alert) { [weak self] in
                     guard let self = self else { return }
                     self.navigationController?.popToRootViewController(animated: true)
                 }
