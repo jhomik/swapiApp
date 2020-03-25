@@ -8,20 +8,20 @@
 
 import UIKit
 
-protocol SendingDataFromAlert {
-    
+protocol FavoriteDelegateData: class {
+    func addDataToFavorite(_ textfield: String)
 }
 
 class ListVC: UIViewController {
     
-    var tableView = UITableView()
+    var tableView: UITableView!
     var selectedCategory: Category?
     var categoryItem: CategoryResponseResults?
     var page = 1
     var hasMoreList = true
     let refreshControl = UIRefreshControl()
     var isRefreshingContent = true
-    var delegate: SendingDataFromAlert!
+    weak var delegate: FavoriteDelegateData?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,10 +61,11 @@ class ListVC: UIViewController {
     
     @objc func addButtonTapped() {
         
-        showAlertToAddText(title: "dsda", message: "Dsada", preferredStyle: .alert) { (string) in
+        showAlertToAddText(title: "Add word", message: "", preferredStyle: .alert) { [weak self] (string) in
+            
             guard let text = string else { return }
+            self?.delegate?.addDataToFavorite(text)
             print(text)
-    
         }
     }
     
@@ -91,7 +92,7 @@ class ListVC: UIViewController {
     }
     
     func configureTableView() {
-        tableView = UITableView(frame: view.bounds)
+        tableView = UITableView(frame: view.frame)
         view.addSubview(tableView)
         tableView.dataSource = self
         tableView.delegate = self

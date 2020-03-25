@@ -10,19 +10,22 @@ import UIKit
 
 class FavoritesVC: UIViewController {
     
-    var list: [String] = ["test"]
+    var tableView: UITableView!
+    
+    private var list: [String] = [] {
+        didSet {
+            tableView.reloadData()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
         
-        let listVc = ListVC()
-        listVc.delegate = self
-        
     }
     
     func configureTableView() {
-        let tableView = UITableView(frame: view.bounds)
+        tableView = UITableView(frame: view.bounds)
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
@@ -45,7 +48,11 @@ extension FavoritesVC: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-extension FavoritesVC: SendingDataFromAlert {
+extension FavoritesVC: FavoriteDelegateData {
+    func addDataToFavorite(_ textfield: String) {
+        list.append(textfield)
+    }
+
     
 }
 
