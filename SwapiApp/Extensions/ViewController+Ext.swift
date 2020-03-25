@@ -24,18 +24,18 @@ extension UIViewController {
         }
     }
     
-    func showAlertToAddText(title: String, message: String, preferredStyle: UIAlertController.Style, closure: @escaping () -> Void) {
+    func showAlertToAddText(title: String, message: String, preferredStyle: UIAlertController.Style, closure: @escaping (String?) -> Void) {
         DispatchQueue.main.async {
             
             let alertVC = UIAlertController(title: title, message: message, preferredStyle: preferredStyle)
             alertVC.addTextField()
             let actionVC = UIAlertAction(title: "Add", style: .default) { (action) in
-                closure()
+                let text = alertVC.textFields?.first?.text
+                closure(text)
             }
             
             alertVC.addAction(actionVC)
             self.present(alertVC, animated: true)
         }
     }
-    
 }

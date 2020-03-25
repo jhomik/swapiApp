@@ -10,20 +10,24 @@ import UIKit
 
 class FavoritesVC: UIViewController {
     
-    let list: [String] = []
+    var list: [String] = ["test"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
-
-//        view.backgroundColor = .systemPink
+        
+        let listVc = ListVC()
+        listVc.delegate = self
         
     }
     
     func configureTableView() {
         let tableView = UITableView(frame: view.bounds)
         view.addSubview(tableView)
+        tableView.delegate = self
+        tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Favorites")
+        
     }
 }
 
@@ -40,3 +44,8 @@ extension FavoritesVC: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
 }
+
+extension FavoritesVC: SendingDataFromAlert {
+    
+}
+

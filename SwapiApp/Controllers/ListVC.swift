@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol SendingDataFromAlert {
+    
+}
+
 class ListVC: UIViewController {
     
     var tableView = UITableView()
@@ -17,7 +21,7 @@ class ListVC: UIViewController {
     var hasMoreList = true
     let refreshControl = UIRefreshControl()
     var isRefreshingContent = true
-    var defaults = UserDefaults.standard
+    var delegate: SendingDataFromAlert!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,18 +40,6 @@ class ListVC: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = false
     }
     
-    func createNavBarButton() {
-        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
-        navigationItem.rightBarButtonItem = addButton
-    }
-    
-    @objc func addButtonTapped() {
-        
-        showAlertToAddText(title: "Favorite List", message: "Add word to list", preferredStyle: .alert) {
-            print("added to list")
-        }
-    }
-    
     func createRefreshControl() {
         tableView.addSubview(refreshControl)
         refreshControl.addTarget(self, action: #selector(refreshTableView), for: .valueChanged)
@@ -59,6 +51,20 @@ class ListVC: UIViewController {
         downloadCategories(page: page)
         DispatchQueue.main.async {
             self.tableView.reloadData()
+        }
+    }
+    
+    func createNavBarButton() {
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
+        navigationItem.rightBarButtonItem = addButton
+    }
+    
+    @objc func addButtonTapped() {
+        
+        showAlertToAddText(title: "dsda", message: "Dsada", preferredStyle: .alert) { (string) in
+            guard let text = string else { return }
+            print(text)
+    
         }
     }
     
@@ -195,7 +201,6 @@ extension ListVC: UITableViewDelegate, UITableViewDataSource {
             page += 1
             downloadCategories(page: page)
         }
-        
     }
-    
 }
+
