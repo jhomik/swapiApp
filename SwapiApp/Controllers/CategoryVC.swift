@@ -14,6 +14,8 @@ class CategoryVC: UIViewController {
     let category = Category.allCases
     let imageLogo = UIImageView()
     
+    weak var delegate: FavoriteDelegateData?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground

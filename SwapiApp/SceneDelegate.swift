@@ -12,7 +12,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
     
-    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
@@ -23,23 +22,42 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
     }
     
-    func createNavigationController() -> UINavigationController {
-        let categoryVC = CategoryVC()
-        categoryVC.tabBarItem = UITabBarItem(tabBarSystemItem: .bookmarks, tag: 0)
-        return UINavigationController(rootViewController: categoryVC)
-    }
-    
-    func createFavoritesController() -> UINavigationController {
-        let favoritesVC = FavoritesVC()
-        favoritesVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
-        return UINavigationController(rootViewController: favoritesVC)
-    }
-    
     func createTabBarController() -> UITabBarController {
         let tabBarVC = UITabBarController()
-        tabBarVC.viewControllers = [createNavigationController(), createFavoritesController()]
+        
+        let favoritesVC = FavoritesVC()
+        
+        let categoryVC = CategoryVC()
+        categoryVC.delegate = favoritesVC
+        
+        let favoritesNav = UINavigationController(rootViewController: favoritesVC)
+        favoritesVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
+        
+        let categoryNav = UINavigationController(rootViewController: categoryVC)
+        categoryVC.tabBarItem = UITabBarItem(tabBarSystemItem: .bookmarks, tag: 0)
+        
+        
+        tabBarVC.viewControllers = [categoryNav, favoritesNav]
         return tabBarVC
     }
+    
+    //    func createNavigationController() -> UINavigationController {
+    //        let categoryVC = CategoryVC()
+    //        categoryVC.tabBarItem = UITabBarItem(tabBarSystemItem: .bookmarks, tag: 0)
+    //        return UINavigationController(rootViewController: categoryVC)
+    //    }
+    //
+    //    func createFavoritesController() -> UINavigationController {
+    //        let favoritesVC = FavoritesVC()
+    //        favoritesVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
+    //        return UINavigationController(rootViewController: favoritesVC)
+    //    }
+    //
+    //    func createTabBarController() -> UITabBarController {
+    //        let tabBarVC = UITabBarController()
+    //        tabBarVC.viewControllers = [createNavigationController(), createFavoritesController()]
+    //        return tabBarVC
+    //    }
     
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
