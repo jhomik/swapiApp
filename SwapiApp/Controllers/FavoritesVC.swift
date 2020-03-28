@@ -14,6 +14,7 @@ class FavoritesVC: UIViewController {
     
     private var list: [String] = [] {
         didSet {
+            guard self.isViewLoaded else { return }
             tableView.reloadData()
         }
     }
@@ -21,7 +22,7 @@ class FavoritesVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
-        
+        newObserver()
     }
     
     func configureTableView() {
@@ -32,8 +33,21 @@ class FavoritesVC: UIViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Favorites")
         
     }
-}
-
+    
+    func newObserver() {
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(wordAdded), name: .didRecievedData, object: nil)
+    }
+    
+    @objc func wordAdded(_ notification: Notification) {
+        
+        guard let newText = notification.userInfo?["newText"] as? String else { return }
+        
+            list.append(newText)
+            print(newText)
+            
+        }
+    }
 
 extension FavoritesVC: UITableViewDataSource, UITableViewDelegate {
     
@@ -48,11 +62,6 @@ extension FavoritesVC: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-extension FavoritesVC: FavoriteDelegateData {
-    func addDataToFavorite(_ textfield: String) {
-        list.append(textfield)
-    }
-
-    
+extension Notification.Name {
+    static let didRecievedData = Notification.Name(rawValue: "didRecievedData")
 }
-

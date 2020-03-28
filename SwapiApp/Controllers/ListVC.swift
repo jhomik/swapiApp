@@ -8,9 +8,9 @@
 
 import UIKit
 
-protocol FavoriteDelegateData: class {
-    func addDataToFavorite(_ textfield: String)
-}
+//protocol FavoriteDelegateData: class {
+//    func addDataToFavorite(_ textfield: String)
+//}
 
 class ListVC: UIViewController {
     
@@ -21,7 +21,7 @@ class ListVC: UIViewController {
     var hasMoreList = true
     let refreshControl = UIRefreshControl()
     var isRefreshingContent = true
-    weak var delegate: FavoriteDelegateData?
+//    weak var delegate: FavoriteDelegateData?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,11 +61,12 @@ class ListVC: UIViewController {
     
     @objc func addButtonTapped() {
         
-        showAlertToAddText(title: "Add word", message: "", preferredStyle: .alert) { [weak self] (string) in
+        showAlertToAddText(title: "Add word", message: "", preferredStyle: .alert) { (string) in
             
             guard let text = string else { return }
-            self?.delegate?.addDataToFavorite(text)
-            print(text)
+//            self?.delegate?.addDataToFavorite(text)
+            NotificationCenter.default.post(name: .didRecievedData, object: nil, userInfo: ["newText": text])
+    
         }
     }
     

@@ -14,7 +14,7 @@ class CategoryVC: UIViewController {
     let category = Category.allCases
     let imageLogo = UIImageView()
     
-    weak var delegate: FavoriteDelegateData?
+//    weak var delegate: FavoriteDelegateData?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,6 +56,7 @@ extension CategoryVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let listVC = ListVC()
+//        listVC.delegate = self.delegate
         listVC.selectedCategory = category[indexPath.row]
         navigationController?.pushViewController(listVC, animated: true)
     }
